@@ -1,0 +1,7 @@
+Birthday's are from
+http://www.dartmouth.edu/~chance/teaching_aids/data/birthday.txt
+
+Houses's are from
+https://raw.githubusercontent.com/nassarhuda/PyDataChi2016/master/5-DataFrames_example/houses.csv
+(which was originally from
+https://raw.githubusercontent.com/davidhallac/NetworkLasso/master/Data/Sacramentorealestatetransactions_Normalized.csv)
