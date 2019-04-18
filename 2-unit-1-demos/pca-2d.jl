@@ -23,8 +23,9 @@ mp = @manipulate for θ in 0.0:2π/100:2π
     v = [cos(θ),sin(θ)]
     z = vec(v'*Y)
     p = plot(
-      scatter(Y[1,:], Y[2,:], label="", size=(300,300),color=3, aspect_ratio=:equal),
-      histogram(z,label="")
+      scatter(Y[1,:], Y[2,:], label="",color=3, aspect_ratio=:equal),
+      histogram(z,label=""),
+      size=(900,450),tickfont=16,titlefont=20
       )
     plot!(p[1],2*[0,v[1]],2*[0,v[2]],label="",linewidth=2)
     scatter!(p[1], v[1].*z, v[2].*z, color=2, label="",
@@ -36,6 +37,10 @@ mp = @manipulate for θ in 0.0:2π/100:2π
     title!(p[1],@sprintf("Angle = %.2f", θ))
     title!(p[2],@sprintf("Variance = %.2f", var(z)))
 end
+## If the figure doesn't show, run
+using Interact
+ui = button()
+display(ui)
 ##
 θs = 0.0:π/1000:π
 plot(collect(θs), map(x -> var(vec([cos(x),sin(x)]'*Y)), θs),
