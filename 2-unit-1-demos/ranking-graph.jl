@@ -35,7 +35,7 @@ using Plots
 ei, ej = findnz(triu(A,1))
 graphplot(ei, ej, x =xy[:,1], y=xy[:,2],
   markercolor=:black, markerstrokecolor=:white,
-  size=(400,400),
+  size=(1200,1200),dpi=300,
   markersize=2, linecolor=1, linealpha=0.01, linewidth=0.5,
   markeralpha=0.2,
   axis_buffer=0.02, background=nothing)
