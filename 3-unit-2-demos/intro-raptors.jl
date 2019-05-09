@@ -7,7 +7,8 @@ vraptor=15.0 #
 
 raptor_distance = 20.0
 
-raptor_min_distance = 0.2; # a raptor within 20 cm can attack
+ # a raptor within 20 cm can attack
+raptor_min_distance = 0.2
 tmax=10. # the maximum time in seconds
 nsteps=1000
 
@@ -88,7 +89,7 @@ function show_raptors(angle; args...)
     plot!(vec(r1hist[1,:]),vec(r1hist[2,:]),color=:red)
     plot!(vec(r2hist[1,:]),vec(r2hist[2,:]),color=:red)
     #plot!(grid=false,xticks=false,yticks=false,legend=false,border=false)
-    plot!(legend=false, framestyle=:none)
+    plot!(legend=false, framestyle=:none, size=(600,600))
     plot!(xlim=[-20.,20.],ylim=[-20.,20.])
     annotate!(r0hist[1,1], r0hist[2,1]-1,text("Wounded Raptor",:right,:white))
     annotate!(r1hist[1,1], r1hist[2,1],text("Raptor 1",:right,:white))
@@ -108,4 +109,5 @@ display(ui)
 ##
 mp = @manipulate for θ in 0.0:2π/100:2π
     show_raptors(θ)
+    plot!(size=(800,800))
 end

@@ -4,17 +4,21 @@ using SparseArrays
 names = readlines("artistsim.names")
 data = readdlm("artistsim.smat")
 ##
-A = sparse(Int.(data[2:end,1]).+1,
-           Int.(data[2:end,2]).+1,
+data[2:end,1] .+= 1
+data[2:end,2] .+= 1
+##
+A = sparse(Int.(data[2:end,1]),
+           Int.(data[2:end,2]),
            Int.(data[2:end,3]),
            Int(data[1,1]),Int(data[1,1]))
 ## Show the data
+using Random
 p = randperm(size(data,1))
-data[p,:]
+display(Int.(data[p,:]))
 ##
-names[20168],names[27075]
+names[34261],names[14195]
 ##
-names[4382],names[6008]
+names[11990],names[16868]
 ## The data is not symmetric.
 sum(abs.(A-A'))
 ## Show the artists with most in-coming similarity
