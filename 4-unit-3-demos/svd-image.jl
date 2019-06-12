@@ -20,3 +20,5 @@ mp = @manipulate for k in 1:25
     X = U[:,1:k]*Diagonal(S[1:k])*V[:,1:k]'
     Gray.(X)
 end
+
+## 

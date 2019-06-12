@@ -46,6 +46,7 @@ function predict(x,a,sigma,train_x)
   return k'*a
 end
 
+
 anim=  @animate for i=1:50
   yhat = predict(test_x[:,:,i],a,sigma,train_x)
   ytrue = test_y[i]
@@ -55,7 +56,7 @@ anim=  @animate for i=1:50
   end
   heatmap(Float64.(test_x[:,:,i]'),yflip=true,framestyle=:none,
     colorbar=false,color=color)
-
+  plot!(size=(300,300),dpi=300)
   title!("Predicted $(target) = $(yhat .>= 0)")
 end
 gif(anim, "mnist-kernel.gif", fps=1)
