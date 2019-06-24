@@ -9,6 +9,11 @@ n = size(train_x,3)
 X = Float64.(reshape(train_x, m, n))
 A = copy(X') # input
 
+## Show a random set of images
+imgs = Gray.(reshape(A[1:25,:]',28,28,25))
+p = plot([heatmap(imgs[:,:,i]') for i=1:25]...,framestyle=:none,yflip=true)
+##
+heatmap(Gray.(reshape(sum(A;dims=1)/size(A,1),28,28)'),framestyle=:none,yflip=true,colorbar=true)
 ##
 #using ImageMagick
 using NMF

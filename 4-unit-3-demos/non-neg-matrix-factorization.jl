@@ -60,7 +60,7 @@ As = reshape(A[1:ndig,:]',28,28,ndig)
 anim = @animate for i=1:60
   plot(myheatmap(Xs[:,:,i]),myheatmap(As[:,:,i]))
 end
-gif(anim, "nmf-mnist-10-approx.gif")
+gif(anim, "nmf-mnist-10-approx.gif",fps=3)
 
 ##
 ndig = 60
@@ -69,4 +69,4 @@ As = reshape(A[1:ndig,:]',28,28,ndig)
 anim = @animate for i=1:60
   plot(myheatmap(Xs[:,:,i]),myheatmap(As[:,:,i]))
 end
-gif(anim, "nmf-mnist-50-approx.gif")
+gif(anim, "nmf-mnist-50-approx.gif",fps=3)
