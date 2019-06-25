@@ -29,4 +29,4 @@ A = sparse(ei,ej,1,n,n)
 A = max.(A,A')
 ##
 using DelimitedFiles
-writedlm("mnist-train-4.edges", hcat(findnz(A)[1:2]...))
+writedlm("mnist-train-$k.edges", hcat(findnz(A)[1:2]...))
