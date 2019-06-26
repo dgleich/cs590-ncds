@@ -40,3 +40,49 @@ for i=1:100
 end
 ##
 savefig("mnist-train-4-spectral-cut.png")
+
+## Make a figure for the label 1
+# find the first 10 nodes labeled 1
+using MLDatasets
+train_x, train_y = MNIST.traindata()
+nlabels = 10
+S = findall(train_y .== 1)[1:nlabels]
+## Show the labeled nodes.
+scatter(xy[:,1],xy[:,2])
+scatter!(xy[S,1], xy[S,2], markersize=25)
+##
+# Form the incidence matrix for the least squares problem
+function incidence_matrix(A)
+  ei,ej = findnz(triu(A,1))
+  n = size(A,1)
+  m = length(ei)
+  return sparse(1:m,ei,1,m,n) - sparse(1:m,ej,1,m,n)
+end
+B = incidence_matrix(A)
+IS = sparse(0.1*I, n,n)
+IS[S,S] .*= 1/maximum(IS)
+labels = zeros(n)
+labels[S] .= 1.0
+## solve the least squares problems
+#x = [B; IS] \ [zeros(size(B,1)); 1]
+AtA = [B; IS]'* [B; IS]
+Atb = [B; IS]'* [zeros(size(B,1)); labels]
+##
+x = AtA\Atb
+##
+scatter(xy[:,1],xy[:,2], marker_z = log10.(x), markerstrokewidth=0)
+
+## Show the labeled nodes.
+scatter(xy[:,1],xy[:,2],background=nothing,framestyle=:none,markersize=2,
+  size=(1200,1200),markerstrokewidth=0, alpha=0.5,dpi=300)
+scatter!(xy[S,1], xy[S,2], markersize=12)
+for i in S
+  annotate!(xy[i,1],xy[i,2], "$(train_y[i])")
+end
+plot!(legend=false)
+savefig("mnist-train-4-labels.png")
+##
+scatter(xy[:,1],xy[:,2],background=nothing,framestyle=:none,markersize=2,
+  size=(1200,1200),markerstrokewidth=0, marker_z = log10.(x),
+  colorbar=false, alpha=0.5,dpi=300,label="")
+savefig("mnist-train-4-soln.png")
