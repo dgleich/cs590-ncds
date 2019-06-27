@@ -54,13 +54,13 @@ U = A - B # we need A' so that the ei, ej plots
 
 graphplot(findnz(triu(B,1))[1:2]..., x = xy[:,1], y = xy[:,2],
   markercolor=nothing, markerstrokecolor=:white, curves=false,
-  markersize=0,
+  markersize=0, markerstrokewidth=0,
   linecolor=1, linealpha=0.8, linewidth=0.7, arrow=:both, shorten=0.85,
   axis_buffer=0.5, background=nothing)
 
 graphplot!(findnz(U)[1:2]..., x = xy[:,1], y = xy[:,2],
   markercolor=nothing, markerstrokecolor=:white, curves=false, curvature_scalar = -0.4,
-  markersize=0,
+  markersize=0, markerstrokewidth=0,
    linecolor=2, linealpha=0.8, linewidth=0.7, arrow = :tail, shorten=0.85,
   axis_buffer=0.5, background=nothing)
 
