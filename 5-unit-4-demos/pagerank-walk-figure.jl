@@ -1,5 +1,4 @@
 ## Make an animation of a random walk
-
 using Plots
 using GraphRecipes
 using SparseArrays
@@ -109,7 +108,7 @@ d = vec(sum(A,dims=2 ))
 P = A'*Diagonal(1.0./d)
 v = ones(n)/n
 α = 0.85
-nsteps = 100
+nsteps = 25
 X = zeros(n,nsteps)
 X[:,1] = v
 for i=2:nsteps
@@ -118,9 +117,9 @@ end
 #plot(X',labels=pages,size=(300,300))
 plot(X',size=(300,300),
   background_color_legend = nothing,foreground_color_legend = nothing,
-  labels=pages,legend=:right)
+  labels=pages,legend=:best)
 xlabel!("Step")
-ylabel!("Value)")
+ylabel!("Value")
 savefig("pagerank-wiki-simple-convergence.pdf")
 
 @show sum(X[:,end])

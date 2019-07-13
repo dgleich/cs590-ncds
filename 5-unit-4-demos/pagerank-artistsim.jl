@@ -50,6 +50,7 @@ function pagerank_converence_animation(A,xy,α,nsteps)
   anim = @animate for i=1:nsteps
     x = α*(A'*(x./d)) .+ (1-α).*v
     f2 = copy(x)
+    f2 = f2/sum(f2)
     p = sortperm(f2) # this gets things to draw in the right z-order
     scatter(xy[p,1],xy[p,2], marker_z=-abs.(log10.(f2[p])).^0.5,colorbar=false,alpha=0.5,
       color=:magma,
@@ -61,18 +62,73 @@ end
 anim = pagerank_converence_animation(A,xy,0.85,25)
 gif(anim,"pagerank-convergence-artistsim.gif",fps=5)
 
+## Change between iterates
+function pagerank_converence_plot(A,xy,α,nsteps)
+  n = size(A,1)
+  v = ones(n)/n
+  @assert(0 ≤ α < 1, "needs probably α")
+  @assert(all(vi -> vi ≥ 0, v), "needs non-negative v")
+  v = v ./ sum(v) # we can normalize for them.
+  d = vec(sum(A,dims=2)) # compute the degrees
+  x = copy(v) # start of with v
+  y = copy(v)
+  hist = zeros(0)
+  for i=1:nsteps
+    x = α*(A'*(x./d)) .+ (1-α).*v
+    push!(hist, norm(y - x/sum(x),1))
+    y = x/sum(x)
+  end
+  return hist
+end
+hist = pagerank_converence_plot(A,xy,0.85,100)
 ##
-p=sortperm(pr)
-scatter(xy[p,1],xy[p,2],marker_z=-abs.(log10.(pr[p])).^0.5,markerstrokewidth=0)
+pyplot()
+theme(:dark)
+plot(hist, yscale=:log10, legend=false, size=(300,300))
+xlabel!("Iteration")
+ylabel!("1-norm change in normalized vector")
+savefig("pagerank-convergence-artistsim-norm.pdf")
+##
+x85 = simplepagerank(A,0.85,ones(n)./n)
+x99 = simplepagerank(A,0.99,ones(n)./n)
+x5 = simplepagerank(A,0.5,ones(n)./n)
+##
+
+## Show a few different vectors
+gr()
+p=sortperm(x99)
+scatter(xy[p,1],xy[p,2],marker_z=-abs.(log10.(x99[p])).^0.5,markerstrokewidth=0,
+color=:magma)
+##
+gr()
+p=sortperm(x5)
+scatter(xy[p,1],xy[p,2],marker_z=-abs.(log10.(x5[p])).^0.5,markerstrokewidth=0,
+color=:magma)
+
 ## Now show the entire graph
-p=sortperm(pr)
-ei, ej = findnz(triu(A,1))
+using GraphRecipes
+using LinearAlgebra
+using Plots
+
+ei, ej = findnz(A)
 graphplot(ei, ej, x =xy[:,1], y=xy[:,2],
   markercolor=:black, markerstrokecolor=:white,
   size=(1200,1200),dpi=300,
   markersize=0, linecolor=1, linealpha=0.01, linewidth=0.5,
   markeralpha=0.2,colorbar=false,
   axis_buffer=0.02, background=nothing)
-scatter!(xy[p,1],xy[p,2],marker_z=-abs.(log10.(pr[p])).^0.5,markerstrokewidth=0)
+p=sortperm(x5)
+scatter!(xy[p,1],xy[p,2],marker_z=-abs.(log10.(x5[p])).^0.5,markerstrokewidth=0)
+savefig("artistsim-pagerank-50.png")
+
 ##
-savefig("artistsim-pagerank.png")
+ei, ej = findnz(A)
+graphplot(ei, ej, x =xy[:,1], y=xy[:,2],
+  markercolor=:black, markerstrokecolor=:white,
+  size=(1200,1200),dpi=300,
+  markersize=0, linecolor=1, linealpha=0.01, linewidth=0.5,
+  markeralpha=0.2,colorbar=false,
+  axis_buffer=0.02, background=nothing)
+p=sortperm(x99)
+scatter!(xy[p,1],xy[p,2],marker_z=-abs.(log10.(x99[p])).^0.5,markerstrokewidth=0)
+savefig("artistsim-pagerank-99.png")
