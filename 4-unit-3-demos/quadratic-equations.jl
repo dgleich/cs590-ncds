@@ -11,7 +11,7 @@ plot(-10:0.01:5, quadratic1(0.5, 3, -2.0),
   legend=false, framestyle = :origin,
   xlabel=L"$x$", ylabel=L"$f(x)$",
   title=L"f(x) = $0.5x^2 + 3x -2$",
-  size=(350,350))
+  size=(350,350))e
 savefig("quadratic1.pdf")
 
 ##

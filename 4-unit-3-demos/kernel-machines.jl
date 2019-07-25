@@ -20,6 +20,7 @@ y = 2.0.*(train_y .== target) .- 1.0 # get a -1, 1 vector for target / not targe
 
 ## Work through an example with Kernel machines
 # Goal, train a 9 or not classifier based on a RBF Kernel
+using LinearAlgebra
 function build_kernel(train_x, sigma)
   N = size(train_x)[end]
   K = zeros(N,N)
