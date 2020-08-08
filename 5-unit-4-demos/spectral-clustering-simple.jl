@@ -37,7 +37,7 @@ function simple_spectral_eigenvector(A,nsteps=500)
   x .-= ((d'*x)/nd2).*d
   x ./= x'*(d.*x) # normalize
   for i=1:nsteps
-    x = (A*x)./d          # matrix-vector
+    x = (A*x)./d + x       # matrix-vector
     x .-= ((d'*x)/nd2).*d
     x ./= sqrt(x'*(d.*x)) # normalize
     # make sure the first component is positive
